@@ -1,22 +1,25 @@
-var http = require("http");
+const http = require("http");
 
 const httpServer = http.createServer(handleServer);
 
 function handleServer(req, res) {
-  if (req.url === "/welcome") {
-    res.status(200).send("Welcome to Dominos!");
-    return;
-  } else if (req.url === "/contact") {
-    const contact = {
-      phone: "18602100000",
-      email: "guestcaredominos@jublfood.com"
-    };
-    res.status(200).send(contact);
-    return;
-  } else {
-    res.status(400).send("Invalid Request");
-    return;
-  }
+    if (req.url === "/welcome") {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.write("Welcome to Dominos!");
+        res.end();
+    } else if (req.url === "/contact") {
+        const contact = {
+            phone: "18602100000",
+            email: "guestcaredominos@jublfood.com"
+        };
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.write(JSON.stringify(contact));
+        res.end();
+    } else {
+        res.writeHead(404);
+        res.end();
+    }
 }
 httpServer.listen(8081);
 
